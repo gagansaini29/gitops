@@ -17,7 +17,8 @@ spec:
     spec:
       containers:
       - name: django
-        image: gitops:1.0
+        image: sainigagan29/gitops:1.0
+        imagePullPolicy : Always
         ports:
         - containerPort: 8000
      
