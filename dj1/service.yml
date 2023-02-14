@@ -4,7 +4,7 @@ metadata:
   name: gagan
   namespace: gitops
 spec:
-  type: NodePort
+  type: LoadBalancer
   selector:
     app: django  #like tag
   ports:
