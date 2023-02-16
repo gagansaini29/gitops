@@ -25,7 +25,7 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           context: .
-          file: dj1/Dockerfile
+          file: django/Dockerfile
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/gitops:1.0
 
