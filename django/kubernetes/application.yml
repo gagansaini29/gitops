@@ -8,7 +8,7 @@ spec:
     source:
         repoURL: https://github.com/gagansaini29/gitops.git
         targetRevision: HEAD
-        path: dj1        
+        path: django        
     destination:
         server: https://kubernetes.default.svc
         namespace: gagan1    
