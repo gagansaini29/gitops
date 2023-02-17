@@ -31,7 +31,7 @@ jobs:
 
 #Kubernetes
   kubernetes_dep:
-  needs: ci
+    needs: ci
     name: deploy to cluster
     runs-on: ubuntu-latest
     steps:
