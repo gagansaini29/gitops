@@ -134,8 +134,8 @@ jobs:
       - name: deployment to eks
         run: |
          kubectl get ns
-         kubectl apply -f action.yml
-         kubectl apply -f service.yml
-         kubectl apply -f dep.yml
+        #  kubectl apply -f action.yml
+        #  kubectl apply -f service.yml
+         kubectl apply -f /home/ubuntu/gitops/django/kubernetes/dep.yml
          kubectl get pods
       
