@@ -23,6 +23,6 @@ jobs:
       - name: deployment to eks
         run: |
          kubectl get ns
-         kubectl apply -f dep.yml
+         kubectl apply -f gitops/dep.yml
          kubectl get pods
       
