@@ -138,9 +138,9 @@ jobs:
       - name: update kubeconfig
         run: aws eks update-kubeconfig --name gitops-node-cluster --region ap-south-1
       - name: Run kubectl
-          uses: gagansaini29/gitops/django/kubernetes
-          with:
-            command: "apply -f dep.yml"
+        uses: gagansaini29/gitops/django/kubernetes
+        with:
+         command: "kubectl apply -f deployment.yaml"
       # - name: deployment to eks
       #   run: |
       #    kubectl apply -f kubernetes/dep.yml
