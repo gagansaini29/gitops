@@ -140,7 +140,7 @@ jobs:
       - name: Run kubectl
         uses: gagansaini29/gitops/django/kubernetes
         with:
-         command: "kubectl apply -f deployment.yaml"
+          command: "kubectl apply -f deployment.yaml"
       # - name: deployment to eks
       #   run: |
       #    kubectl apply -f kubernetes/dep.yml
