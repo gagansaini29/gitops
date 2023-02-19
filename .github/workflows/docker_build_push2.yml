@@ -133,6 +133,6 @@ jobs:
       #     command: "kubectl apply -f deployment.yaml"
       - name: deployment to eks
         run: |
-         kubectl apply -f kubernetes/deployment.yaml
+         kubectl apply -f django/kubernetes/deployment.yaml
          kubectl get pods
       
