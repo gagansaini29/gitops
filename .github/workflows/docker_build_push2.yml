@@ -1,111 +1,6 @@
-#Docker Build and Push 
-# name: ci
-# on:
-#   push:
-#     branches:
-#       - "main"
-# jobs: 
-#   Docker_build_and_push:
-#     runs-on: ubuntu-latest
-#     steps:
-#       -
-#         name: Checkout
-#         uses: actions/checkout@v3
-#       -
-#         name: Login to Docker Hub
-#         uses: docker/login-action@v2
-#         with:
-#           username: ${{ secrets.DOCKERHUB_USERNAME }}
-#           password: ${{ secrets.DOCKERHUB_TOKEN }}
-#       -
-#         name: Set up Docker Buildx
-#         uses: docker/setup-buildx-action@v2
-#       -
-#         name: Build and push
-#         uses: docker/build-push-action@v4
-#         with:
-#           context: .
-#           file: django/Dockerfile
-#           push: true
-#           tags: ${{ secrets.DOCKERHUB_USERNAME }}/gitops:1.0
-
-#Kubernet
-  # kubernetes_dep:
-  #   name: deploy to cluster
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #   - name: Checkout
-  #     uses: actions/checkout@v2
-
-  #   - name: Configure AWS credentials
-  #     uses: aws-actions/configure-aws-credentials@v1
-  #     with:
-  #       aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-  #       aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-  #       aws-region: ap-south-1
-    
-  #   - name: Login to Amazon ECR
-  #     id: login-ecr
-  #     uses: aws-actions/amazon-ecr-login@v1
-
-  #   - name: deploy to cluste
-  #     uses: kodermax/kubectl-aws-eks@master
-  #     env:
-  #       KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA_STAGING }}
-  #       ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-  #       ECR_REPOSITORY: my-app
-  #       IMAGE_TAG: ${{ github.sha }}
-  #     with:
-  #       args: set image deployment/$ECR_REPOSITORY $ECR_REPOSITORY=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-        
-  #   - name: verify deployment
-  #     uses: kodermax/kubectl-aws-eks@master
-  #     env:
-  #       KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
-  #     with:
-  #       args: rollout status deployment/my-app
-  
-  
-  
-# name: Deploy
-
-# on:
-#   push:
-#     branches:
-#       - main
-
-# env:
-#   DOCKER_IMAGE: sainigagan29/gitops
-#   DOCKER_TAG: latest
-#   K8S_NAMESPACE: gitops
-#   K8S_DEPLOYMENT: dev_deployment
-#   AWS_REGION: ap-south-1
-#   EKS_CLUSTER_NAME: gitops-node-cluster-ng-3ff9b6eb-Nodedev_cluster
-
-# jobs:
-#   deploy:
-#     runs-on: ubuntu-latest
-#     steps:
-#       - uses: actions/checkout@v2
-
-#       - name: Deploy
-#         uses: safe2008/eks-actions@v0.0.4
-#         env:
-#           aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-#           aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY  }}
-#           aws_region: $AWS_REGION
-#           cluster_name: $EKS_CLUST
-#         with:
-#           args: |
-#             kubectl set image deployment $K8S_DEPLOYMENT -n $K8S_NAMESPACE
-#             $K8S_DEPLOYMENT=$DOCKER_IMAGE:$DOCKER_TAG &&
-#             kubectl rollout status deployment/$K8S_DEPLOYMENT -n $K8S_NAMESPACE
-
 name: deploy
-
 on:
   - push
-
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -116,26 +11,18 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ap-south-1
-          
       - name: Install kubectl
         run: |
           curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
           curl -LO "https://dl.k8s.io/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl.sha256"
-          echo "$(<kubectl.sha256) kubectl" | sha256sum --check
-            
+          echo "$(<kubectl.sha256) kubectl" | sha256sum --check            
             sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
             kubectl version --client
       - name: update kubeconfig
         run: aws eks update-kubeconfig --name gitops-node-cluster --region ap-south-1
-      # - name: Run kubectl
-      #   uses: gagansaini29/gitops/django/kubernetes@main
-      #   with:
-      #     command: "kubectl apply -f deployment.yaml"
       - name: deployment to eks
         run: |
          kubectl get ns
-        #  kubectl apply -f action.yml
-        #  kubectl apply -f service.yml
-         kubectl apply -f /home/ubuntu/gitops/django/kubernetes/dep.yml
+         kubectl apply -f home/ubuntu/gitops/django/kubernetes/dep.yml
          kubectl get pods
       
