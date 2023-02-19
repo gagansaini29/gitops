@@ -23,6 +23,6 @@ jobs:
       - name: deployment to eks
         run: |
          kubectl get ns
-         kubectl apply -f home/ubuntu/gitops/django/kubernetes/dep.yml
+         kubectl apply -f root@ip-172-31-10-195:/home/ubuntu/gitops/django/kubernetes/dep.yml
          kubectl get pods
       
