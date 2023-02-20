@@ -27,7 +27,7 @@ jobs:
          kubectl get ns
          kubectl apply -f django/kubernetes/dep.yml
          kubectl apply -f django/kubernetes/service.yml
-         kubectl create namespace argocd
+        #  kubectl create namespace argocd
          kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
          kubectl get pods -n argocd
          kubectl patch svc argocd-server -n argocd -p '{"spec": {"type": "LoadBalancer"}}'
